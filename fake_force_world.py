@@ -23,7 +23,7 @@ tf_buffer = Buffer()
 tf_listener = TransformListener(tf_buffer, node)
 def tool_position():
     try:
-        t = tf_buffer.lookup_transform("base_link", "tool0", rclpy.time.Time())
+        t = tf_buffer.lookup_transform("base_link", "probe_contact_point", rclpy.time.Time())
         p = t.transform.translation
         return p.x, p.y, p.z
     except Exception:

@@ -7,10 +7,16 @@ GROUP_NAME = "ur_manipulator"
 TIP_LINK = "tool0"
 BASE_FRAME = "base_link"
 
-X_VALUES = [0.30, 0.36, 0.42, 0.48, 0.54, 0.60]
-Y_VALUES = [-0.15, -0.09, -0.03, 0.03, 0.09, 0.15]
-HOVER_Z = 0.28
+JOINT_NAMES = [
+    "shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint",
+    "wrist_1_joint", "wrist_2_joint", "wrist_3_joint",
+]
 
+X_VALUES = [0.30, 0.40, 0.50, 0.60]
+Y_VALUES = [-0.15, -0.05, 0.05, 0.15]
+
+FINGER_LENGTH = 0.09
+HOVER_Z = 0.30 + FINGER_LENGTH
 rclpy.init()
 node = Node("ik_check")
 
@@ -24,7 +30,6 @@ def check(x, y, z):
     pose.pose.position.x = x
     pose.pose.position.y = y
     pose.pose.position.z = z
-    # 180 degrees about x: makes the tool point straight down
     pose.pose.orientation.x = 1.0
     pose.pose.orientation.w = 0.0
 
@@ -37,30 +42,36 @@ def check(x, y, z):
 
     future = client.call_async(request)
     rclpy.spin_until_future_complete(node, future)
-    return future.result().error_code.val == 1
-
-print(f"\nhover layer at z = {HOVER_Z}")
-print("        " + "".join(f"{x:>7.2f}" for x in X_VALUES))
-reachable = 0
+    result = future.result()
+    if result.error_code.val != 1:
+        return None
+    sol = dict(zip(result.solution.joint_state.name,
+                   result.solution.joint_state.position))
+    return [sol[n] for n in JOINT_NAMES]
+print(f"\nhover layer, tool0 at z = {HOVER_Z:.2f}")
+print("                  pan     lift    elbow   wr1     wr2     wr3")
+ok_count = 0
 for y in Y_VALUES:
-    marks = ""
     for x in X_VALUES:
-        if check(x, y, HOVER_Z):
-            marks += "     ok"
-            reachable += 1
+        angles = check(x, y, HOVER_Z)
+        if angles is None:
+            print(f"x={x:.2f} y={y:+.2f}   FAILED")
         else:
-            marks += "     XX"
-    print(f"y={y:+.2f} {marks}")
-print(f"\n{reachable} of 36 hover points reachable")
+            ok_count += 1
+            formatted = " ".join(f"{a:+.3f}" for a in angles)
+            print(f"x={x:.2f} y={y:+.2f}   {formatted}")
 
-print("\ndescent depth at corners and centre:")
+print(f"\n{ok_count} of 16 hover points reachable")
+
+print("\ndescent depth check:")
 for (x, y) in [(0.30, -0.15), (0.60, -0.15), (0.30, 0.15), (0.60, 0.15), (0.45, 0.00)]:
     lowest = None
-    for z in [0.28, 0.24, 0.20, 0.16, 0.12, 0.08, 0.04, 0.02]:
-        if check(x, y, z):
+    for z in [0.39, 0.30, 0.25, 0.20, 0.15, 0.12, 0.09]:
+        if check(x, y, z) is not None:
             lowest = z
         else:
             break
-    print(f"  ({x:+.2f}, {y:+.2f})  lowest z reached: {lowest}")
+    print(f"  ({x:+.2f}, {y:+.2f})  lowest tool0 z: {lowest}")
 
 rclpy.shutdown()
+
