@@ -34,25 +34,10 @@ contact. The raw numbers are in [`data/touch_map_log.csv`](data/touch_map_log.cs
    and a reconstructed surface. The vertical axis uses a fixed 15 cm range, so heights are
    shown at true scale instead of being stretched.
 
-## Simulation first
-
-Before touching real hardware, the full pipeline was built and tested in Gazebo:
-
-- [`simulation/custom_description/`](simulation/custom_description) adds a two-finger probe
-  tip and a `probe_contact_point` frame to the UR robot model.
-- [`simulation/spawn_box.sh`](simulation/spawn_box.sh) places a box in the simulated world to
-  be mapped.
-- [`simulation/fake_force_world.py`](simulation/fake_force_world.py) creates a pretend force
-  sensor. It publishes a noisy reading that jumps up whenever the fingertip is inside the box
-  or below the table.
-- [`simulation/sweep_with_contact.py`](simulation/sweep_with_contact.py) is the simulated
-  version of the probing loop.
-
 ## Repository layout
 
 ```
 scripts/      final real-robot pipeline: solve_grid -> touch_map -> plot_map
-simulation/   Gazebo model, fake force sensor and simulated sweep
 data/         planned joint angles and the logged contact results
 media/        result figure
 ```
@@ -71,10 +56,6 @@ python3 scripts/plot_map.py     # only needs numpy + matplotlib
 Settings you may need to change: `FINGER_LENGTH` in `solve_grid.py` (the distance from the
 tool flange to the probe tip; 0.157 m here), and `FORCE_THRESHOLD` / `DRY_RUN` in
 `touch_map.py`.
-
-For the simulation, generate `data/grid_poses_sim.csv` with `solve_grid.py`, using the
-simulated finger length (0.09 m) and that output file name. Then run `fake_force_world.py`
-and `sweep_with_contact.py`.
 
 ## Notes and limitations
 
