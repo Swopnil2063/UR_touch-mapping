@@ -4,8 +4,8 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-LOG_FILE = "touch_map_log_1.csv"
-OUT_FILE = "touch_map_1.png"
+LOG_FILE = "data/touch_map_log.csv"
+OUT_FILE = "media/touch_map.png"
 
 # how tall a vertical range to show, in meters, so scale stays honest
 # and comparable between runs (real-world proportions, not auto-zoomed)

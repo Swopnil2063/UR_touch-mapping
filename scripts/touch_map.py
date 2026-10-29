@@ -13,8 +13,8 @@ JOINT_NAMES = [
 ]
 
 START_POSE = [0.0, -1.5708, 0.0, -1.5708, 0.0, 0.0]
-POSE_FILE = "grid_poses_2.csv"
-LOG_FILE = "touch_map_log_2.csv"
+POSE_FILE = "data/grid_poses.csv"
+LOG_FILE = "data/touch_map_log.csv"
 
 # ---- TUNE THESE WITHOUT RE-PULLING ----
 FORCE_THRESHOLD = 1.0      # newtons below baseline = contact
@@ -121,7 +121,7 @@ def descend_until_contact(column):
         node.get_logger().error("no force data - aborting descent")
         return False, None, None
 
-    publish_column(column, DESCENT_SECONDS_SAFE := DESCEND_SECONDS)
+    publish_column(column, DESCEND_SECONDS)
 
     deadline = time.time() + DESCEND_SECONDS + 0.5
     while time.time() < deadline:

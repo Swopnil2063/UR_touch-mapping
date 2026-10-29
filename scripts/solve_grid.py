@@ -18,7 +18,7 @@ JOINT_NAMES = [
 
 START_POSE = [0.0, -1.5708, 0.0, -1.5708, 0.0, 0.0]
 
-# known-good reference pose from the original, working solve_grid.py run
+# known-good reference pose from an earlier successful IK run
 GOOD_REFERENCE = [-2.844, -1.449, -1.854, -1.410, 1.571, -1.273]
 
 X_VALUES = [0.35, 0.42, 0.49, 0.56]
@@ -26,14 +26,14 @@ Y_VALUES = [-0.12, -0.04, 0.04, 0.12]
 CENTER_X = 0.455
 CENTER_Y = 0.0
 
-FINGER_LENGTH = 0.0965
+FINGER_LENGTH = 0.15748  # 6.2 inches
 HOVER_Z = 0.30
 PROBE_Z = 0.00
 DESCENT_STEPS = 6
 MAX_JOINT_JUMP = 1.0
 MAX_FIRST_JUMP = 2.5
 
-OUTPUT_FILE = "grid_poses_1.csv"
+OUTPUT_FILE = "data/grid_poses.csv"
 rclpy.init()
 node = Node("solve_grid")
 

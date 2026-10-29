@@ -13,8 +13,8 @@ JOINT_NAMES = [
 ]
 
 START_POSE = [0.0, -1.5708, 0.0, -1.5708, 0.0, 0.0]
-POSE_FILE = "grid_poses.csv"
-RESULT_FILE = "contact_results.csv"
+POSE_FILE = "data/grid_poses_sim.csv"
+RESULT_FILE = "data/contact_results_sim.csv"
 
 DESCENT_STEPS = 6
 THRESHOLD = 20.0

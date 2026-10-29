@@ -1,3 +1,6 @@
 __pycache__/
 *.pyc
 
+# videos are hosted on YouTube, not in git
+*.mp4
+*.mov
