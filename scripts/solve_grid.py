@@ -16,8 +16,6 @@ JOINT_NAMES = [
     "wrist_1_joint", "wrist_2_joint", "wrist_3_joint",
 ]
 
-START_POSE = [0.0, -1.5708, 0.0, -1.5708, 0.0, 0.0]
-
 # known-good reference pose from an earlier successful IK run
 GOOD_REFERENCE = [-2.844, -1.449, -1.854, -1.410, 1.571, -1.273]
 
