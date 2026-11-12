@@ -91,9 +91,7 @@ Settings you might need to change:
 
 ## Limits
 
-- The saved heights are for the end of the arm (`tool0`), not the ruler tip. To get the tip's
-  height, subtract `FINGER_LENGTH`. Differences between spots, like the 8 cm object above, are
-  still correct, because every spot has the same offset.
+
 - 16 spots, 7–8 cm apart, give a rough picture, like a photo with only 16 pixels. The sloped
   sides in the plot come from connecting neighboring dots, not from the real object. More spots
   would give sharper edges.
