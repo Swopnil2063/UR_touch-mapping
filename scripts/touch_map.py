@@ -16,7 +16,7 @@ START_POSE = [0.0, -1.5708, 0.0, -1.5708, 0.0, 0.0]
 POSE_FILE = "data/grid_poses.csv"
 LOG_FILE = "data/touch_map_log.csv"
 
-# ---- TUNE THESE WITHOUT RE-PULLING ----
+# ---- settings ----
 FORCE_THRESHOLD = 1.0      # newtons below baseline = contact
 BASELINE_SECONDS = 1.0     # how long to average free-air force
 DESCENT_STEPS = 6
